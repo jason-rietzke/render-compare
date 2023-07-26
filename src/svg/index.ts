@@ -1,5 +1,5 @@
-import type { ShapeType, Result } from "./utils";
-import { observeLongtasks } from "./utils";
+import type { ShapeType, Result } from "../utils";
+import { observeLongtasks } from "../utils";
 
 export const svg = document.getElementsByTagName("svg")[0];
 if (!svg) throw new Error("svg not found");

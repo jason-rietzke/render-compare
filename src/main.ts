@@ -1,5 +1,5 @@
 import "./style.css";
-import { zoomableSVG } from "./zoomable";
+import { zoomableSVG } from "./svg/zoomable";
 import * as SVG from "./svg";
 
 const testSvgBtn = document.getElementById("test-svg");
