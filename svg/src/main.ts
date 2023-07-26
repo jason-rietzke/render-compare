@@ -1,4 +1,5 @@
 import "./style.css";
+import { observeLongtasks } from "./utils";
 import { zoomableSVG } from "./zoomable";
 
 type ShapeType = "hexagon" | "quater";
@@ -52,11 +53,14 @@ function renderShapes(type: ShapeType, length: number, withText = false) {
 }
 
 function render() {
+	let n = 0;
+	observeLongtasks((duration, entry) => {
+		console.log(`rendered ${n} shapes in ${duration}ms`, entry);
+	});
 	const type: ShapeType = "quater";
 	const length = 128;
 	const withText = true;
-	const n = renderShapes(type, length, withText);
-	console.log(`rendered ${n} shapes`);
+	n = renderShapes(type, length, withText);
 }
 
 let clicked = false;
