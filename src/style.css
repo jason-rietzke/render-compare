@@ -3,6 +3,14 @@ body {
 	color: #d4d4d4;
 }
 
+button.active {
+	background-color: #1e68e5;
+	color: #d4d4d4;
+}
+.hidden {
+	display: none;
+}
+
 svg {
 	position: fixed;
 	top: 0;
