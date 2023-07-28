@@ -101,7 +101,14 @@ function renderShapes(type: ShapeType, length: number, withText = false): number
 		context.restore();
 		context.save();
 		if (withText) {
-			// TODO
+			const text = `${i}`;
+			const textWidth = context.measureText(text).width;
+			context.translate(x + r / 2, y + r * 1.1);
+			context.scale(r * 0.04, r * 0.04);
+			context.fillStyle = "#000";
+			context.fillText(text, -textWidth / 2, 0);
+			context.restore();
+			context.save();
 		}
 	});
 	return shapes.length;

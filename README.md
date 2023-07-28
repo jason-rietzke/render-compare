@@ -4,6 +4,8 @@
 
 -   [About](#about)
 -   [Results](#results)
+    -   [SVG](#results-svg)
+    -   [Canvas 2D](#results-canvas-2d)
 
 ## About <a name = "about"></a>
 
@@ -20,7 +22,7 @@ The `Hexagon` type is composed of 6 lines and resembles a fairly primitive shape
 The `Quater` type is composed of 2 lines and a arc and is therefore more complex to render.  
 Text blocks are bringing additional complexity to the rendering process.
 
-### SVG
+### SVG <a name = "results-svg"></a>
 
 | Type    | +Text | Elements | Time (ms) |
 | ------- | :---: | -------: | --------: |
@@ -38,3 +40,22 @@ Text blocks are bringing additional complexity to the rendering process.
 | Quater  |  ✅   |   16,384 |     413ms |
 
 > Somewhat surprisingly, the easier `Hexagon` type is slower to render than the more complex `Quater` type.
+
+---
+
+### Canvas 2D <a name = "results-canvas-2d"></a>
+
+| Type    | +Text | Elements | Time (ms) |
+| ------- | :---: | -------: | --------: |
+| Hexagon |       |    1,024 |      17ms |
+| Hexagon |  ✅   |    1,024 |      21ms |
+| Quater  |       |    1,024 |      15ms |
+| Quater  |  ✅   |    1,024 |      19ms |
+| Hexagon |       |    4,096 |      52ms |
+| Hexagon |  ✅   |    4,096 |      69ms |
+| Quater  |       |    4,096 |      34ms |
+| Quater  |  ✅   |    4,096 |      50ms |
+| Hexagon |       |   16,384 |     297ms |
+| Hexagon |  ✅   |   16,384 |     264ms |
+| Quater  |       |   16,384 |     214ms |
+| Quater  |  ✅   |   16,384 |     235ms |
