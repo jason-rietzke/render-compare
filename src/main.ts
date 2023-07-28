@@ -68,6 +68,12 @@ testBtn.addEventListener("click", () => {
 			console.log(results);
 		});
 	}
+	if (active === "canvas") {
+		Canvas.clear();
+		Canvas.test().then((results) => {
+			console.log(results);
+		});
+	}
 });
 
 zoomableSVG(SVG.svg, false);
