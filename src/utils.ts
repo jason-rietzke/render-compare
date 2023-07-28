@@ -26,6 +26,13 @@ export function observeLongtasks(
 	return observer;
 }
 
+const stats = document.getElementById("stats");
+export function displayStats(shapes: number) {
+	if (!stats) throw new Error("stats element not found");
+	const content = [`${shapes} shapes rendered`].join("\n");
+	stats.textContent = content;
+}
+
 export function hexagonPath(r: number) {
 	const b = (Math.sqrt(3) / 2) * r;
 	return `M 0 0 l ${r} 0 l ${r / 2} ${b} l ${-r / 2} ${b} l ${-r} 0 l ${-r / 2} ${-b} l ${r / 2} ${-b} l ${r} 0 Z`;

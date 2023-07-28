@@ -20,3 +20,13 @@ canvas {
 	height: 100vh;
 	overflow: hidden;
 }
+
+#stats {
+	position: fixed;
+	margin-top: 0.2em;
+	right: 0;
+	padding: 0.1em;
+	font-size: 0.8em;
+	background-color: #1e1e1e;
+	color: #d4d4d4;
+}

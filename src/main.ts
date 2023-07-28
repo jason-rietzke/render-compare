@@ -1,4 +1,5 @@
 import "./style.css";
+import { displayStats } from "./utils";
 import { zoomableSVG } from "./svg/zoomable";
 import * as SVG from "./svg";
 import * as Canvas from "./canvas";
@@ -41,6 +42,7 @@ testBtn.addEventListener("click", () => {
 
 SVG.svg.addEventListener("click", () => {
 	SVG.svg.innerHTML = "";
-	SVG.render("quater", 128, true);
+	const n = SVG.render("quater", 128, true);
+	displayStats(n);
 });
 zoomableSVG(SVG.svg, false);
