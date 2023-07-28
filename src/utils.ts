@@ -10,7 +10,7 @@ console.debug("available PerformanceObserver supportedEntryTypes:", PerformanceO
 
 export function observeLongtasks(
 	cb: (duration: number, entry: PerformanceEntry[]) => void,
-	autoDisconnect = true,
+	autoDisconnect = true
 ): PerformanceObserver | void {
 	if (!("PerformanceObserver" in window)) return console.warn("PerformanceObserver not supported");
 	if (!PerformanceObserver.supportedEntryTypes.includes("longtask"))
@@ -24,4 +24,13 @@ export function observeLongtasks(
 	});
 	observer.observe({ type: "longtask", buffered: false });
 	return observer;
+}
+
+export function hexagonPath(r: number) {
+	const b = (Math.sqrt(3) / 2) * r;
+	return `M 0 0 l ${r} 0 l ${r / 2} ${b} l ${-r / 2} ${b} l ${-r} 0 l ${-r / 2} ${-b} l ${r / 2} ${-b} l ${r} 0 Z`;
+}
+export function quaterPath(r: number) {
+	const d = r * 2;
+	return `M 0 0 L ${d} 0 A ${d} ${d} 0 0 1 1 ${d} L 0 0`;
 }

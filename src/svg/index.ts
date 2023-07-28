@@ -1,5 +1,5 @@
 import type { ShapeType, Result } from "../utils";
-import { observeLongtasks } from "../utils";
+import { observeLongtasks, hexagonPath, quaterPath } from "../utils";
 
 export const svg = document.getElementsByTagName("svg")[0];
 if (!svg) throw new Error("svg not found");
@@ -50,33 +50,25 @@ export function test(): Promise<Result[]> {
 	});
 }
 
-function hexagonPath(r: number) {
-	const b = (Math.sqrt(3) / 2) * r;
-	return `M 0 0 l ${r} 0 l ${r / 2} ${b} l ${-r / 2} ${b} l ${-r} 0 l ${-r / 2} ${-b} l ${r / 2} ${-b} l ${r} 0 Z`;
-}
-function quaterPath(r: number) {
-	return `M 0 0 L ${r} 0 A ${r} ${r} 0 0 1 1 ${r} L 0 0`;
-}
-
 function createShape(type: ShapeType, r: number) {
 	const shape = document.createElementNS("http://www.w3.org/2000/svg", "path");
 	shape.setAttribute("d", type == "hexagon" ? hexagonPath(r) : quaterPath(r));
 	return shape;
 }
 
-function renderShapes(type: ShapeType, length: number, withText = false) {
+function renderShapes(type: ShapeType, length: number, withText = false): number {
 	const svgSize = { width: svg.clientWidth, height: svg.clientHeight };
 	const r = Math.min(svgSize.width, svgSize.height) / (length * 2);
 	const shapes = new Array(length * length).fill(null).map(() => createShape(type, r));
 	const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
-	shapes.forEach((hexagon, i) => {
-		hexagon.setAttribute("fill", "#94a8ff");
+	shapes.forEach((shape, i) => {
+		shape.setAttribute("fill", "#94a8ff");
 		const xOffset = (i % length) * r * 2 + r / 2;
 		const yOffset = Math.floor(i / length) * r * 2;
 		const x = xOffset + (svgSize.width > svgSize.height ? (svgSize.width - svgSize.height) / 2 : 0);
 		const y = yOffset + (svgSize.height > svgSize.width ? (svgSize.height - svgSize.width) / 2 : 0);
-		hexagon.setAttribute("transform", `translate(${x} ${y})`);
-		g.appendChild(hexagon);
+		shape.setAttribute("transform", `translate(${x} ${y})`);
+		g.appendChild(shape);
 		if (withText) {
 			const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
 			text.setAttribute("x", `${r / 2}`);
