@@ -1,4 +1,4 @@
-export type ShapeType = "hexagon" | "quater";
+export type ShapeType = "hexagon" | "quarter";
 export type Result = {
 	shapeType: ShapeType;
 	elementCount: number;
@@ -37,7 +37,7 @@ export function hexagonPath(r: number) {
 	const b = (Math.sqrt(3) / 2) * r;
 	return `M 0 0 l ${r} 0 l ${r / 2} ${b} l ${-r / 2} ${b} l ${-r} 0 l ${-r / 2} ${-b} l ${r / 2} ${-b} l ${r} 0 Z`;
 }
-export function quaterPath(r: number) {
+export function quarterPath(r: number) {
 	const d = r * 2;
 	return `M 0 0 L ${d} 0 A ${d} ${d} 0 0 1 1 ${d} L 0 0`;
 }

@@ -1,6 +1,6 @@
 import type { ShapeType, Result } from "../utils";
 import { createMesh } from "./utils";
-import { observeLongtasks, hexagonPath, quaterPath } from "../utils";
+import { observeLongtasks, hexagonPath, quarterPath } from "../utils";
 
 export const canvas = document.getElementsByTagName("canvas")[0];
 if (!canvas) throw new Error("canvas not found");
@@ -43,7 +43,7 @@ export function render(type: ShapeType, length: number, withText: boolean): numb
 export function test(): Promise<Result[]> {
 	return new Promise((resolve) => {
 		const results: Result[] = [];
-		const types: ShapeType[] = ["hexagon", "quater"];
+		const types: ShapeType[] = ["hexagon", "quarter"];
 		const lengths = [32, 64, 128];
 		const withTexts = [false, true];
 		let t = 0;
@@ -78,7 +78,7 @@ export function test(): Promise<Result[]> {
 }
 
 function createShape(type: ShapeType, r: number) {
-	return createMesh(type == "hexagon" ? hexagonPath(r) : quaterPath(r), {
+	return createMesh(type == "hexagon" ? hexagonPath(r) : quarterPath(r), {
 		scale: 1,
 		simplify: 0.01,
 	});

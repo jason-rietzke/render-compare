@@ -1,5 +1,5 @@
 import type { ShapeType, Result } from "../utils";
-import { observeLongtasks, hexagonPath, quaterPath } from "../utils";
+import { observeLongtasks, hexagonPath, quarterPath } from "../utils";
 
 export const svg = document.getElementsByTagName("svg")[0];
 if (!svg) throw new Error("svg not found");
@@ -16,7 +16,7 @@ export function render(type: ShapeType, length: number, withText: boolean): numb
 export function test(): Promise<Result[]> {
 	return new Promise((resolve) => {
 		const results: Result[] = [];
-		const types: ShapeType[] = ["hexagon", "quater"];
+		const types: ShapeType[] = ["hexagon", "quarter"];
 		const lengths = [32, 64, 128];
 		const withTexts = [false, true];
 		let t = 0;
@@ -52,7 +52,7 @@ export function test(): Promise<Result[]> {
 
 function createShape(type: ShapeType, r: number) {
 	const shape = document.createElementNS("http://www.w3.org/2000/svg", "path");
-	shape.setAttribute("d", type == "hexagon" ? hexagonPath(r) : quaterPath(r));
+	shape.setAttribute("d", type == "hexagon" ? hexagonPath(r) : quarterPath(r));
 	return shape;
 }
 
