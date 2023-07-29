@@ -6,6 +6,8 @@
 -   [Results](#results)
     -   [SVG](#results-svg)
     -   [Canvas 2D](#results-canvas-2d)
+-   [Comparison](#comparison)
+    -   [SVG vs Canvas Comparison](#comparison-svg-vs-canvas)
 
 ## About <a name = "about"></a>
 
@@ -37,7 +39,7 @@ Text blocks are bringing additional complexity to the rendering process.
 | Hexagon |       |   16,384 |     111ms |
 | Hexagon |  ✅   |   16,384 |     453ms |
 | Quater  |       |   16,384 |      98ms |
-| Quater  |  ✅   |   16,384 |     413ms |
+| Quater  |  ✅   |   16,384 |     387ms |
 
 > Somewhat surprisingly, the easier `Hexagon` type is slower to render than the more complex `Quater` type.
 
@@ -55,7 +57,22 @@ Text blocks are bringing additional complexity to the rendering process.
 | Hexagon |  ✅   |    4,096 |      69ms |
 | Quater  |       |    4,096 |      34ms |
 | Quater  |  ✅   |    4,096 |      50ms |
-| Hexagon |       |   16,384 |     297ms |
-| Hexagon |  ✅   |   16,384 |     264ms |
-| Quater  |       |   16,384 |     214ms |
-| Quater  |  ✅   |   16,384 |     235ms |
+| Hexagon |       |   16,384 |     204ms |
+| Hexagon |  ✅   |   16,384 |     254ms |
+| Quater  |       |   16,384 |     172ms |
+| Quater  |  ✅   |   16,384 |     206ms |
+
+> Outstanding is the decreased overhead of rendering text blocks on the canvas compared to SVG.
+
+## Comparison <a name = "comparison"></a>
+
+Comparing the results for 16,384 elements.
+
+### SVG vs Canvas Comparison <a name = "comparison-svg-vs-canvas"></a>
+
+|  Strategy | Type    |  Time (+Text) | Text Overhead |
+| --------: | :------ | ------------: | ------------- |
+|       SVG | Hexagon | 111ms (453ms) | 342ms (75.5%) |
+|       SVG | Quater  |  98ms (387ms) | 289ms (74.7%) |
+| Canvas 2D | Hexagon | 204ms (254ms) | 50ms (19.7%)  |
+| Canvas 2D | Quater  | 172ms (206ms) | 34ms (16.5%)  |
