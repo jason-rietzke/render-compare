@@ -1,6 +1,6 @@
 import type { ShapeType, Result } from "../utils";
 import { createMesh } from "./utils";
-import { observeLongtasks, hexagonPath, quarterPath } from "../utils";
+import { observeLongtasks, hexagonPath, quarterPath, displayStats } from "../utils";
 
 export const canvas = document.getElementsByTagName("canvas")[0];
 if (!canvas) throw new Error("canvas not found");
@@ -66,6 +66,7 @@ export function test(): Promise<Result[]> {
 							results.push({ shapeType: type, elementCount, withText, duration });
 						});
 						elementCount = renderShapes(type, length, withText);
+						displayStats(elementCount);
 					}, 1500 * t);
 					t++;
 				});

@@ -1,5 +1,5 @@
 import type { ShapeType, Result } from "../utils";
-import { observeLongtasks, hexagonPath, quarterPath } from "../utils";
+import { observeLongtasks, hexagonPath, quarterPath, displayStats } from "../utils";
 
 export const svg = document.getElementsByTagName("svg")[0];
 if (!svg) throw new Error("svg not found");
@@ -39,6 +39,7 @@ export function test(): Promise<Result[]> {
 							results.push({ shapeType: type, elementCount, withText, duration });
 						});
 						elementCount = renderShapes(type, length, withText);
+						displayStats(elementCount);
 					}, 1500 * t);
 					t++;
 				});
