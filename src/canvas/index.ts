@@ -7,13 +7,21 @@ if (!canvas) throw new Error("canvas not found");
 const context = canvas.getContext("2d");
 if (!context) throw new Error("context not found");
 
-const size = Math.min(window.innerWidth, window.innerHeight);
-canvas.width = size;
-canvas.height = size;
-canvas.style.width = `${size}px`;
-canvas.style.height = `${size}px`;
-if (size < window.innerWidth) canvas.style.marginLeft = `${(window.innerWidth - size) / 2}px`;
-if (size < window.innerHeight) canvas.style.marginTop = `${(window.innerHeight - size) / 2}px`;
+let size = Math.min(window.innerWidth, window.innerHeight);
+export function resize() {
+	size = Math.min(window.innerWidth, window.innerHeight);
+	canvas.width = size;
+	canvas.height = size;
+	canvas.style.width = `${size}px`;
+	canvas.style.height = `${size}px`;
+	canvas.style.marginLeft = size < window.innerWidth ? `${(window.innerWidth - size) / 2}px` : "0px";
+	canvas.style.marginTop = size < window.innerHeight ? `${(window.innerHeight - size) / 2}px` : "0px";
+}
+resize();
+window.addEventListener("resize", () => {
+	resize();
+	clear();
+});
 
 export function clear() {
 	if (!context) throw new Error("context not found");
@@ -88,8 +96,7 @@ function createShape(type: ShapeType, r: number) {
 function renderShapes(type: ShapeType, length: number, withText = false): number {
 	if (!context) throw new Error("context not found");
 	clear();
-	const canvasSize = { width: canvas.clientWidth, height: canvas.clientHeight };
-	const r = Math.min(canvasSize.width, canvasSize.height) / (length * 2);
+	const r = size / (length * 2);
 	const shapes = new Array(length * length).fill(null).map(() => createShape(type, r));
 	shapes.forEach((shape, i) => {
 		const x = (i % length) * r * 2 + r / 2;

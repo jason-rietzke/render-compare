@@ -4,6 +4,24 @@ import { observeLongtasks, hexagonPath, quarterPath, displayStats } from "../uti
 export const svg = document.getElementsByTagName("svg")[0];
 if (!svg) throw new Error("svg not found");
 
+let size = Math.min(window.innerWidth, window.innerHeight);
+export function resize() {
+	size = Math.min(window.innerWidth, window.innerHeight);
+	svg.style.width = `${size}px`;
+	svg.style.height = `${size}px`;
+	svg.style.marginLeft = size < window.innerWidth ? `${(window.innerWidth - size) / 2}px` : "0px";
+	svg.style.marginTop = size < window.innerHeight ? `${(window.innerHeight - size) / 2}px` : "0px";
+}
+resize();
+window.addEventListener("resize", () => {
+	resize();
+	clear();
+});
+
+export function clear() {
+	svg.innerHTML = "";
+}
+
 export function render(type: ShapeType, length: number, withText: boolean): number {
 	let n = 0;
 	observeLongtasks((duration, entries) => {
@@ -58,16 +76,13 @@ function createShape(type: ShapeType, r: number) {
 }
 
 function renderShapes(type: ShapeType, length: number, withText = false): number {
-	const svgSize = { width: svg.clientWidth, height: svg.clientHeight };
-	const r = Math.min(svgSize.width, svgSize.height) / (length * 2);
+	const r = size / (length * 2);
 	const shapes = new Array(length * length).fill(null).map(() => createShape(type, r));
 	const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
 	shapes.forEach((shape, i) => {
 		shape.setAttribute("fill", "#94a8ff");
-		const xOffset = (i % length) * r * 2 + r / 2;
-		const yOffset = Math.floor(i / length) * r * 2;
-		const x = xOffset + (svgSize.width > svgSize.height ? (svgSize.width - svgSize.height) / 2 : 0);
-		const y = yOffset + (svgSize.height > svgSize.width ? (svgSize.height - svgSize.width) / 2 : 0);
+		const x = (i % length) * r * 2 + r / 2;
+		const y = Math.floor(i / length) * r * 2;
 		shape.setAttribute("transform", `translate(${x} ${y})`);
 		g.appendChild(shape);
 		if (withText) {
