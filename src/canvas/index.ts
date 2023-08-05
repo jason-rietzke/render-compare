@@ -1,6 +1,6 @@
 import type { ShapeType, Result } from "../utils";
-import { createMesh } from "./utils";
-import { observeLongtasks, hexagonPath, quarterPath, displayStats } from "../utils";
+import { observeLongtasks, displayStats } from "../utils";
+import { createShape, createShapesWithWorkers, drawTriangles } from "./builder";
 
 export const canvas = document.getElementsByTagName("canvas")[0];
 if (!canvas) throw new Error("canvas not found");
@@ -30,21 +30,17 @@ export function clear() {
 	context.save();
 }
 
-function drawTriangles(context: CanvasRenderingContext2D, positions: number[][]) {
-	context.beginPath();
-	positions.forEach((p, i) => {
-		if (i === 0) context.moveTo(p[0], p[1]);
-		else context.lineTo(p[0], p[1]);
-	});
-	context.closePath();
-}
-
-export function render(type: ShapeType, length: number, withText: boolean): number {
+export async function render(
+	type: ShapeType,
+	length: number,
+	withText: boolean,
+	withWorkers: boolean
+): Promise<number> {
 	let n = 0;
 	observeLongtasks((duration, entries) => {
 		console.log(`rendered ${n} shapes in ${duration}ms`, entries);
 	});
-	n = renderShapes(type, length, withText);
+	n = await renderShapes(type, length, withText, withWorkers);
 	return n;
 }
 
@@ -60,7 +56,7 @@ export function test(): Promise<Result[]> {
 			types.forEach((type, j2) => {
 				withTexts.forEach((withText, j3) => {
 					let lastObserver: PerformanceObserver | void;
-					setTimeout(() => {
+					setTimeout(async () => {
 						if (lastObserver) lastObserver.disconnect();
 						const c = j1 * types.length * withTexts.length + j2 * withTexts.length + j3;
 						console.log(
@@ -73,7 +69,7 @@ export function test(): Promise<Result[]> {
 						lastObserver = observeLongtasks((duration) => {
 							results.push({ shapeType: type, elementCount, withText, duration });
 						});
-						elementCount = renderShapes(type, length, withText);
+						elementCount = await renderShapes(type, length, withText);
 						displayStats(elementCount);
 					}, 1500 * t);
 					t++;
@@ -86,18 +82,16 @@ export function test(): Promise<Result[]> {
 	});
 }
 
-function createShape(type: ShapeType, r: number) {
-	return createMesh(type == "hexagon" ? hexagonPath(r) : quarterPath(r), {
-		scale: 1,
-		simplify: 0.01,
-	});
-}
-
-function renderShapes(type: ShapeType, length: number, withText = false): number {
+async function renderShapes(type: ShapeType, length: number, withText = false, withWorkers = false): Promise<number> {
 	if (!context) throw new Error("context not found");
 	clear();
 	const r = size / (length * 2);
-	const shapes = new Array(length * length).fill(null).map(() => createShape(type, r));
+	let shapes: number[][][];
+	if (withWorkers) {
+		shapes = await createShapesWithWorkers(type, length, r);
+	} else {
+		shapes = new Array(length * length).fill(null).map(() => createShape(type, r));
+	}
 	shapes.forEach((shape, i) => {
 		const x = (i % length) * r * 2 + r / 2;
 		const y = Math.floor(i / length) * r * 2;

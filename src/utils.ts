@@ -26,8 +26,8 @@ export function observeLongtasks(
 	return observer;
 }
 
-const stats = document.getElementById("stats");
 export function displayStats(shapes: number) {
+	const stats = document.getElementById("stats");
 	if (!stats) throw new Error("stats element not found");
 	const content = [`${shapes} shapes rendered`].join("\n");
 	stats.textContent = content;
